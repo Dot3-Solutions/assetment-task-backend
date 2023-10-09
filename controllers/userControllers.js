@@ -43,13 +43,12 @@ const login = async (req, res) => {
     const emailChack = await user.findOne({ email: email });
     if (!emailChack) {
       return res
-        .status(500)
+        .status(400)
         .json({ status: "failed", message: "User not found" });
     }
     const matchPassword = await bcrypt.compare(password, emailChack.password);
-    console.log(matchPassword);
     if (!matchPassword) {
-      return res.status(500).json({
+      return res.status(400).json({
         status: "failed",
         message: "Password Incorrect !",
       });
@@ -74,7 +73,7 @@ const allUsers = async (req, res) => {
     const tokenVarify = verifyToken(token);
     const userChack = await user.findOne({ _id: tokenVarify.id });
     if (!userChack) {
-      return res.status(500).json({
+      return res.status(400).json({
         status: "faield",
         message: "token Invalid",
       });
@@ -106,7 +105,7 @@ const update = async (req, res) => {
     const userChack = await user.findOne({ _id: tokenVarify.id });
     if (userChack.email !== tokenVarify.email) {
       return res
-        .status(500)
+        .status(400)
         .json({ status: "faield", message: "do not update user" });
     }
     const updateUser = await user.findByIdAndUpdate(

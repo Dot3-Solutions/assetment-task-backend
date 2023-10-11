@@ -27,7 +27,6 @@ const signup = async (req, res) => {
       token: token,
     });
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .json("Internal server error please try after some time!");
@@ -59,7 +58,6 @@ const login = async (req, res) => {
       token: token,
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       status: "failed",
       message: "Internal server error please try after some time!",
@@ -84,7 +82,11 @@ const allUsers = async (req, res) => {
       result: allUser,
     });
   } catch (error) {
-    console.log(error);
+    if (error.name === "TokenExpiredError") {
+      return res
+        .status(403)
+        .json({ status: "failed", message: "Token expired" });
+    }
     return res.status(500).json({
       status: "faield",
       message: "Internal server error please try after some time!",
@@ -125,7 +127,11 @@ const update = async (req, res) => {
       token: tokenGenrate,
     });
   } catch (error) {
-    console.log(error);
+    if (error.name === "TokenExpiredError") {
+      return res
+        .status(403)
+        .json({ status: "failed", message: "Token expired" });
+    }
     return res.status(500).json({
       status: "faield",
       message: "Internal server error please try after some time!",

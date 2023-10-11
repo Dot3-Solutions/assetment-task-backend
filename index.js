@@ -11,5 +11,4 @@ app.use("/api/user/", userRouter);
 
 app.listen(process.env.PORT, () => {
   connect();
-  console.log("listening on port " + process.env.PORT);
 });

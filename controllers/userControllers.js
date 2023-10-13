@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const signup = async (req, res) => {
   try {
     const { firstName, lastName, DOB, mobile, email, password } = req.body;
-    if (!(firstName, lastName, DOB, mobile, email, password)) {
+    if (!(firstName && lastName && DOB && mobile && email && password)) {
       return res.status(400).json("All field are required");
     }
     const isUserExist = await user.findOne({ email: email });
@@ -36,7 +36,7 @@ const signup = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    if (!(email, password)) {
+    if (!(email && password)) {
       return res.status(400).json("All field are required");
     }
     const emailChack = await user.findOne({ email: email });
@@ -99,7 +99,7 @@ const update = async (req, res) => {
     const token = req.headers.authorization;
     const tokenVarify = verifyToken(token);
     const { firstName, lastName, DOB, mobile, email } = req.body;
-    if (!(firstName, lastName, DOB, mobile, email)) {
+    if (!(firstName && lastName && DOB && mobile && email)) {
       return res
         .status(400)
         .json({ status: "faield", message: "All field are required" });
